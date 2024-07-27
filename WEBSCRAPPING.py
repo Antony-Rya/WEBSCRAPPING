@@ -1,11 +1,15 @@
-from bs4 import BeautifulSoup
-from lxml import etree 
-
 import requests
+from bs4 import BeautifulSoup
+import re
+import pandas as pd
+import math
 
-html  = requests.get("https://portal.inmet.gov.br/").content
+url = "https://www.kabum.com.br/espaco-gamer/cadeiras-gamer"
 
-soup = BeautifulSoup(html, 'html.parser')
+headers = {"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36"}
 
-dom = etree.HTML(str(soup)) 
-print(dom.xpath('/html/body/div[3]/div[3]/div[2]/div/div[2]/div/div/div/div[2]/div[1]/div[2]/div[3]/div[1]/b')[0].text) 
+site = requests.get(url, headers=headers)
+soup = BeautifulSoup(site.content, "html.parser")
+
+qtd_itens = soup.find("span", class_="bstn-hl-title gui-color-primary gui-color-hover gui-color-primary-bg-after").get_text()
+print(qtd_itens)
